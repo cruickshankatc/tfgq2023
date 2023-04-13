@@ -1,0 +1,51 @@
+//Create a single function which executes the player's attacks
+1. When player (Autobot) clicks "melee" the button needs to reduce the health of the enemy (Decepticon).
+2. Then the player and the enemy roles switch. Player (Decepticon) and enemy (Autobot)
+3. When player (Decepticon) clicks "melee" the button needs to reduce the health of the enemy (Autobot)
+
+//The "Player" function executes the "melee" action regardless of factions (Autobot or Decepticon) or character (Swindle or Dune Runner)
+1. Instead of having a function for each character a single function will exist and will have the character's stats passed through.
+2. The character stats are relevant - the faction doesn't matter to the function
+3. Clicking "melee" button activates the "attack" function but with "overhaul passed through as the parameter
+4. Overhaul's stats are passed to the to the player function before this happens
+
+//The "Player" "Variable" is set equal to Overhaul at the start of Overhaul's turn. Therefore, when the "melee","move" or "firepower" buttons are used the function already knows who the "player" is.
+
+//The "Enemy" variable is for the character that loses health.
+1. There is no "enemy" variable in the "battle/arena" sense
+2. If an attack is performed on a certain square(s) the enemy(ies) that occupy that space will lose health
+3. Fall off damage may occur for certain attack
+
+//A "melee" attack is performed on a space, not a character
+1. The range of the "melee" attack is only one space next to the player.
+2. The "melee" attack is initiated by a button click (after the "melee" option is selected)
+
+
+
+
+//For some of the spread attacks (with firepower) the enemy health will work differently
+
+
+
+
+ORDERING THE TEAMS:
+Autobots:
+Leader - Landmine
+Scout - Dune Runner
+Flyer - Brainstorm
+Muscle - Ironhide
+Special - Overhaul
+
+Decepticons:
+Leader - Cryofire
+Scout - Hardtop
+Flyer - Starscream
+Muscle - Scorponok
+Special - Swindle
+
+Ransacks:
+Leader - Ransack
+Scout - Prowl
+Flyer - Overcast
+Muscle - Onslaught
+Special - Crumplezone

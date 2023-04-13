@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>Square Soldier</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body style="background-color:black">
+	<!-- BASIC FIGHT - OVERHAUL VS. OVERCAST -->
+		<center>
+			<div class="figherInfo" id="overhaul">
+				<span>Overhaul</span>
+				<span id="overhaulHealth"></span>
+				<button onclick="meleeOverhaul()" id="overhaulMelee" disabled="true">Melee</button>
+				<button id="overhaulFirepower" disabled="true">Firepower</button>
+				<button id="overhaulMove" disabled="true">Move</button>
+			</div>
+			<div class="fighterInfo" id="overcast">
+				<span>Overcast</span>
+				<span id="overcastHealth"></span>
+				<button onclick="meleeOvercast()" id="overcastMelee">Melee</button>
+				<button onclick="firepowerOvercast()" id="overcastFirepower">Firepower</button>
+				<button id="overcastMove">Move</button>
+			</div>
+			<div id="landmine"></div>
+			<div id="endMessage"></div>
+			<section id="battleground">
+				
+			</section>
+			<h1 id="displayName" style="color:red; font-size:300%;"></h1>
+			<button id="moveButton" onclick="movePrompt()">Move</button>
+			<button id="meleeButton" disabled="true">Melee</button>
+			<button id="firepowerButton" disabled="true">Firepower</button>
+			<button id="reloadButton" disabled="true">Reload</button>
+			<button id="ultimateButton" disabled="true">Ultimate</button>
+		</center>
+		<script src="fight.js"></script>
+	</body>
+</html>
