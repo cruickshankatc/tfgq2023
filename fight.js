@@ -1,35 +1,55 @@
-//SETUP
-//Creating the board
+//-------------------SETUP-------------------//
+//Merely gets the id for the empty <section> with the id "battleground"
 var battleground = document.getElementById("battleground");
-var squareSpaces = [];
-for (ii = 0; ii <= 458; ii++) {
-	squareSpaces[ii] = document.createElement('div');
-	squareSpaces[ii].className = "blankSpace";
-	battleground.appendChild(squareSpaces[ii]);	
-}
 
-//Characters
+//Creates an array
+var squareSpaces = []; 
+
+//This loop creates divs, gives them a class name and adds these new divs with (class names) to the battleground section
+for (ii = 0; ii <= 458; ii++) {
+	squareSpaces[ii] = document.createElement('div'); 
+	squareSpaces[ii].className = "blankSpace"; 
+	battleground.appendChild(squareSpaces[ii]);	
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------CHARACTER INITIAL PLACEMENT----------------//
 var currentPlayer = ["landmine", "ransack", "dunerunner", "prowl", "brainstorm", "overcast", "ironhide", "onslaught", "overhaul", "crumplezone"];
-var characterSpace = ["landmine", "ransack", "dunerunner", "prowl", "brainstorm", "overcast", "ironhide", "onslaught", "overhaul", "crumplezone"];
+
+//Merely creates the array that will establish the starting space of each character
+var characterSpace = [];
+
 var k = 0;
 
 //Character Spaces
-var battleSquares = battleground.getElementsByTagName("div");
+var battleSquares = battleground.getElementsByTagName("div"); /*Grabs all of the divs within the body. You could also say it grabs all of the squares*/
 var CurrCharSpace = 0;
 var FCS = 162;
-var rowLength = 27;
+var rowLength = 1323/battleSquares[1].offsetWidth;
+
+//Picks squares and alters their HTML to contain IDs of specific characters for the starting spaces
 battleSquares[FCS].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space'></div>";
 battleSquares[FCS + rowLength].outerHTML = "<div id='" + currentPlayer[2] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*2 - 1)].outerHTML = "<div id='" + currentPlayer[3] + "Space' class='charSpace'></div>";
 battleSquares[FCS + rowLength*2].outerHTML = "<div id='" + currentPlayer[4] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*3 - 1)].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
 battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + currentPlayer[6] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*4 - 1)].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
 battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + currentPlayer[8] + "Space' class='charSpace'></div>";
+battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space'></div>";
+battleSquares[FCS + (rowLength*2 - 1)].outerHTML = "<div id='" + currentPlayer[3] + "Space' class='charSpace'></div>";
+battleSquares[FCS + (rowLength*3 - 1)].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
+battleSquares[FCS + (rowLength*4 - 1)].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength*5 - 1)].outerHTML = "<div id='" + currentPlayer[9] + "Space' class='charSpace'></div>";
 
-
+//Numbers in the characterSpace Array are assigned to the outerHTML of the character spaces
 characterSpace[0] = battleSquares[FCS].outerHTML;
 characterSpace[1] = battleSquares[FCS + (rowLength - 1)].outerHTML;
 characterSpace[2] = battleSquares[FCS + rowLength].outerHTML;
@@ -41,7 +61,23 @@ characterSpace[7] = battleSquares[FCS + (rowLength*4 - 1)].outerHTML;
 characterSpace[8] = battleSquares[FCS + rowLength*4].outerHTML
 characterSpace[9] = battleSquares[FCS + (rowLength*5 - 1)].outerHTML;
 
-//CURRENT PLAYER
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------CURRENT PLAYER------------------//
+//Current Spaces
+function changeBgColor(obj, colorName) {
+	obj.style.backgroundColor = colorName;
+	} 
+
 //Name Display
 var teamColor;
 var teamColor2;
@@ -51,38 +87,42 @@ var displayChanges = function() {
 	teamColor2 = 'pink';
 	if (k === 0 || k === 2 || k === 4 || k === 6 || k === 8) {
 		teamColor = 'red';
+		teamColor2 = 'pink';
 	} else if (k === 1 || k === 3 || k === 5 || k === 7 || k === 9) {
 		teamColor = 'yellowGreen';
+		teamColor2 = 'yellow';
 		}
-	document.getElementById('displayName').outerHTML = "<h1 id='displayName' style='color:" + teamColor + "; font-size:300%;'></h1>";
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]);
+	document.getElementById('displayName').outerHTML = "<h1 id='displayName' style='color:" + teamColor + "; font-size:300%;'></h1>"; /*Changes the color of the title of the active character*/
+	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]); /*Writes the name of the active character*/
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 }
 displayChanges();
 
-//CHARACTER OBJECT
-function Character (health, strength, speed, firepower, range, clipSize) {
-	this.health = health;
-	this.strength = strength;
-	this.speed = speed;
-	this.firepower = firepower;
-	this.range = range;
-	this.clipSize = clipSize;
-}
-
-let overhaul = new Character (15, 5, 9, 0, 0, 0);
-let overcast = new Character (15, 2, 5, 6, 5, 2);
-
-//CHANGING SPACES
-//Initial Spaces
-function changeBgColor(obj, colorName) {
-	obj.style.backgroundColor = colorName;
-	} 
 
 
-//PROMPTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//--------------------PROMPTS-------------------//
+//The functions that take place upon clicking the buttons at the bottom of the screen
+
+
+
+//The move prompt activates certain spaces for movement. It alters the HTML of spaces surrounding the currentPlayer[] so that they become clickable spaces which contain the moveAction() 
 var movePrompt = function() {
 	var CC = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[k] + 'Space');
 	//Up Movements
@@ -90,9 +130,9 @@ var movePrompt = function() {
 	if ((CC - a) <= -1){ 
 		break;
 	} if (battleSquares[CC - 27*a].className == "charSpace") {
-			break
+			break /*Breaks the move prompt highlight path if there is another character (another character face) in the way*/
 		}
-		battleSquares[CC - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'></div>"
+		battleSquares[CC - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (CC - 27*a) + ")'' style='background-color:" + teamColor2 + ";'></div>"
 	}
 		
 	//Right Movements
@@ -118,33 +158,81 @@ var movePrompt = function() {
 			break;
 		} 	
 		if (battleSquares[CC + b].className == "charSpace") {
-			break
+			break;
 		}
-		battleSquares[CC + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + b) + ")'></div>"
+		battleSquares[CC + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + b) + ")'' style='background-color:" + teamColor2 + ";'></div>"
 	}
 
 	//Down Movements
 	for (c = 1; c <= 6; c++) {
-		if ((CC + 27*c) >= 433) {
+		if ((CC + 27*c) == 432 || 
+			(CC + c) == 433 ||
+			(CC + c) == 434 ||
+			(CC + c) == 435 || 
+			(CC + c) == 436 ||
+			(CC + c) == 437 ||
+			(CC + c) == 438 || 
+			(CC + c) == 439 ||
+			(CC + c) == 440 ||
+			(CC + c) == 441 ||
+			(CC + c) == 442 || 
+			(CC + c) == 443 ||
+			(CC + c) == 444 ||
+			(CC + c) == 445 || 
+			(CC + c) == 446 ||
+			(CC + c) == 447 ||
+			(CC + c) == 448 ||
+			(CC + c) == 449 ||
+			(CC + c) == 450 ||
+			(CC + c) == 451 ||
+			(CC + c) == 452 || 
+			(CC + c) == 453 ||
+			(CC + c) == 454 ||
+			(CC + c) == 455 || 
+			(CC + c) == 456 ||
+			(CC + c) == 457 ||
+			(CC + c) == 458)
+		{
 			break;
-		}
+		} 
 		if (battleSquares[CC + 27*c].className == "charSpace") {
 			break
 		}
-		battleSquares[CC + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'></div>"
+		battleSquares[CC + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + 27*c) + ")'' style='background-color:" + teamColor2 + ";'></div>"
 	}
 	
 	//Left Movements
-	for (d = 1; d <= 6; d++) {	
-		if (battleSquares[CC - d].className == "charSpace") {
-			break
-		} 				
-		if ((CC + d) <= 163) {
+	for (d = 1; d <= 6; d++) {			
+		if ((CC - d) == 26 || 
+			(CC - d) == 53 ||
+			(CC - d) == 80 ||
+			(CC - d) == 107 || 
+			(CC - d) == 134 ||
+			(CC - d) == 161 ||
+			(CC - d) == 188 || 
+			(CC - d) == 215 ||
+			(CC - d) == 242 ||
+			(CC - d) == 269 ||
+			(CC - d) == 296 || 
+			(CC - d) == 323 ||
+			(CC - d) == 350 ||
+			(CC - d) == 378 || 
+			(CC - d) == 404 ||
+			(CC - d) == 431 ||
+			(CC - d) == 458) 
+		{
 			break;
-		}
-		battleSquares[CC - d].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + d) + ")'></div>"
+		} 	
+		if (battleSquares[CC - d].className == "charSpace") {
+			break;
+		} 		
+		battleSquares[CC - d].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC - d) + ")'' style='background-color:" + teamColor2 + ";'></div>"
 	}	
 }
+
+
+
+
 
 var meleePrompt = function() {
 	
@@ -161,6 +249,10 @@ var reloadPrompt = function() {
 var ultimatePrompt = function() {
 	
 }
+
+
+
+
 
 
 	var zzz = [];
@@ -184,13 +276,17 @@ var moveAction = function(x) {
 		document.getElementById(currentPlayer[k] + "Space").outerHTML = "<div class='blankSpace'></div>";	
 		battleSquares[x].outerHTML = "<div id='" + currentPlayer[k] + "Space' class='charSpace'></div>";		
 	}
-
-	k++;
+	if (k >= 9) {
+		k = 0;
+	} else {
+		k++;
+	}
 	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]);
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
-	
+	displayChanges();
+
 }
 
 var playerMoves = function() {
@@ -199,6 +295,9 @@ var playerMoves = function() {
 		CG[j].outerHTML = `<div id='F` + j + `'` + `onclick='overhaulMoves("F` + j + `"` + `)' onmouseover="changeBgColor(this, '` + teamColor2 + `')" onmouseout="changeBgColor(this, 'white')"></div>`
 	}
 }
+
+
+
 
 //Movements
 var spaceDiv;
@@ -218,107 +317,3 @@ var overhaulMoves = function(x) {
 		}
 	displayChanges();
 	}
-
-
-//BUTTON FUNCTIONS
-overhaulButton0 = document.getElementById("overhaul");
-overhaulButton = overhaulButton0.getElementsByTagName("button");
-overcastButton0 = document.getElementById("overcast");
-overcastButton = overcastButton0.getElementsByTagName("button");
-
-var overhaulButtonsOn = function() {
-	for (var buttonNum = 0; buttonNum < overhaulButton.length; buttonNum++) {
-		overhaulButton[buttonNum].disabled = 0;
-	}
-	
-	overhaulButton[1].disabled = true;
-}
-
-var overhaulButtonsOff = function() {
-	for (var buttonNum = 0; buttonNum < overhaulButton.length; buttonNum++) {
-		overhaulButton[buttonNum].disabled = 1;
-	}
-}
-
-var overcastButtonsOn = function() {
-	for (var buttonNum = 0; buttonNum < overcastButton.length; buttonNum++) {
-		overcastButton[buttonNum].disabled = 0;
-	}
-}
-
-var overcastButtonsOff = function() {
-	for (var buttonNum = 0; buttonNum < overcastButton.length; buttonNum++) {
-		overcastButton[buttonNum].disabled = 1;
-	}
-}
-
-//CHARACTER HEALTH
-	document.getElementById("overhaulHealth").innerHTML = String(overhaul.health);
-	document.getElementById("overcastHealth").innerHTML = String(overcast.health);
-
-//OVERHAUL MELEE
-let meleeOverhaul = function() {
-	let overcastHealth = document.getElementById("overcastHealth").innerHTML;
-	let overcastHealth2 = parseInt(overcastHealth);
-	overcastHealth2 = overcastHealth2 - overhaul.strength;
-	let overcastHealth3
-	overcastHealth3 = String(overcastHealth2);
-	document.getElementById("overcastHealth").innerHTML = overcastHealth3;
-	overhaulButtonsOff();
-	overcastButtonsOn();
-	
-	if (overcastHealth3 <= "0") {
-	overhaulButtonsOff();
-	overcastButtonsOff();
-	document.getElementById("endMessage").innerHTML = "<span>Play Again?</span><button onclick='playAgain()'>Yes</button><button>No</button>"
-	}
-}
-
-//OVERCAST MELEE
-let meleeOvercast = function() {
-	let overhaulHealth = document.getElementById("overhaulHealth").innerHTML;
-	let overhaulHealth2 = parseInt(overhaulHealth);
-	let overhaulHealth3
-	overhaulHealth2 = overhaulHealth2 - overcast.strength;
-	overhaulHealth3 = String(overhaulHealth2);
-	document.getElementById("overhaulHealth").innerHTML = overhaulHealth3;
-	overhaulButtonsOn();
-	overcastButtonsOff();
-	
-	if (overhaulHealth3 <= "0") {
-	overhaulHealth3 = "0";
-	document.getElementById("overhaulHealth").innerHTML = overhaulHealth3;
-	overhaulButtonsOff();
-	overcastButtonsOff();
-	document.getElementById("endMessage").innerHTML = "<span>Play Again?</span><button onclick='playAgain()'>Yes</button><button>No</button>"
-	}
-}
-
-//OVERCAST MELEE
-let firepowerOvercast = function() {
-	let overhaulHealth = document.getElementById("overhaulHealth").innerHTML;
-	let overhaulHealth2 = parseInt(overhaulHealth);
-	let overhaulHealth3
-	overhaulHealth2 = overhaulHealth2 - overcast.firepower;
-	overhaulHealth3 = String(overhaulHealth2);
-	document.getElementById("overhaulHealth").innerHTML = overhaulHealth3;
-	overhaulButtonsOn();
-	overcastButtonsOff();
-	
-	if (overhaulHealth3 <= "0") {
-	overhaulHealth3 = "0";
-	document.getElementById("overhaulHealth").innerHTML = overhaulHealth3;
-	overhaulButtonsOff();
-	overcastButtonsOff();
-	document.getElementById("endMessage").innerHTML = "<span>Play Again?</span><button onclick='playAgain()'>Yes</button><button>No</button>"
-	}
-}
-
-//PLAY AGAIN
-let playAgain = function() {
-	document.getElementById("endMessage").innerHTML = null;
-	overhaulButtonsOff();
-	overcastButtonsOn();
-	document.getElementById("overhaulHealth").innerHTML = String(overhaul.health);
-	document.getElementById("overcastHealth").innerHTML = String(overcast.health);
-}
