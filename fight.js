@@ -43,7 +43,7 @@ battleSquares[FCS + rowLength].outerHTML = "<div id='" + currentPlayer[2] + "Spa
 battleSquares[FCS + rowLength*2].outerHTML = "<div id='" + currentPlayer[4] + "Space' class='charSpace'></div>";
 battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + currentPlayer[6] + "Space' class='charSpace'></div>";
 battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + currentPlayer[8] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space'></div>";
+battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space' class='charSpace ransackSpace'></div>";
 battleSquares[FCS + (rowLength*2 - 1)].outerHTML = "<div id='" + currentPlayer[3] + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength*3 - 1)].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength*4 - 1)].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
@@ -117,19 +117,22 @@ displayChanges();
 
 
 
-//--------------------PROMPTS-------------------//
+//--------------------MOVEMENTS-------------------//
+//MOVEMENT PROMPT
+
+
 //The functions that take place upon clicking the buttons at the bottom of the screen
-
-
-
 //The move prompt activates certain spaces for movement. It alters the HTML of spaces surrounding the currentPlayer[] so that they become clickable spaces which contain the moveAction() 
 var movePrompt = function() {
 	var CC = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[k] + 'Space');
+
 	//Up Movements
 	for (a = 1; a <= 6/*this will be changed to character's speed number*/; a++) {
-	if ((CC - a) <= -1){ 
+	if ((CC - 27*a) <= -1)
+	{ 	
 		break;
-	} if (battleSquares[CC - 27*a].className == "charSpace") {
+	} 
+	if (battleSquares[CC - 27*a].className == "charSpace") {
 			break /*Breaks the move prompt highlight path if there is another character (another character face) in the way*/
 		}
 		battleSquares[CC - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (CC - 27*a) + ")'' style='background-color:" + teamColor2 + ";'></div>"
@@ -165,45 +168,20 @@ var movePrompt = function() {
 
 	//Down Movements
 	for (c = 1; c <= 6; c++) {
-		if ((CC + 27*c) == 432 || 
-			(CC + c) == 433 ||
-			(CC + c) == 434 ||
-			(CC + c) == 435 || 
-			(CC + c) == 436 ||
-			(CC + c) == 437 ||
-			(CC + c) == 438 || 
-			(CC + c) == 439 ||
-			(CC + c) == 440 ||
-			(CC + c) == 441 ||
-			(CC + c) == 442 || 
-			(CC + c) == 443 ||
-			(CC + c) == 444 ||
-			(CC + c) == 445 || 
-			(CC + c) == 446 ||
-			(CC + c) == 447 ||
-			(CC + c) == 448 ||
-			(CC + c) == 449 ||
-			(CC + c) == 450 ||
-			(CC + c) == 451 ||
-			(CC + c) == 452 || 
-			(CC + c) == 453 ||
-			(CC + c) == 454 ||
-			(CC + c) == 455 || 
-			(CC + c) == 456 ||
-			(CC + c) == 457 ||
-			(CC + c) == 458)
-		{
+		if ((CC + 27*c) >= 459)
+		{		
 			break;
 		} 
 		if (battleSquares[CC + 27*c].className == "charSpace") {
 			break
-		}
+		} 
 		battleSquares[CC + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + 27*c) + ")'' style='background-color:" + teamColor2 + ";'></div>"
 	}
 	
 	//Left Movements
 	for (d = 1; d <= 6; d++) {			
-		if ((CC - d) == 26 || 
+		if ((CC - d) == -1 ||
+			(CC - d) == 26 || 
 			(CC - d) == 53 ||
 			(CC - d) == 80 ||
 			(CC - d) == 107 || 
@@ -230,33 +208,11 @@ var movePrompt = function() {
 	}	
 }
 
-
-
-
-
-var meleePrompt = function() {
-	
-}
-
-var firepowerPrompt = function() {
-	
-}
-
-var reloadPrompt = function() {
-	
-}
-
-var ultimatePrompt = function() {
-	
-}
-
-
-
-
-
-
 	var zzz = [];
-//ACTIONS
+	
+	
+	
+//MOVEMENT ACTION
 var moveAction = function(x) {
 	for (a = 0; a <= 9; a++) {		
 		zzz[a] = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[
@@ -299,6 +255,129 @@ var playerMoves = function() {
 
 
 
+
+
+
+
+
+/*----------------FIREPOWER-----------------*/
+var firepowerPrompt = function() {
+	var CC = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[k] + 'Space');
+
+	//Up Movements
+	for (a = 1; a <= 6/*this will be changed to character's speed number*/; a++) {
+	if ((CC - 27*a) <= -1)
+	{ 	
+		break;
+	} 
+	if (battleSquares[CC - 27*a].className == "charSpace") {
+			break /*Breaks the move prompt highlight path if there is another character (another character face) in the way*/
+		}
+		battleSquares[CC - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (CC - 27*a) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}
+		
+	//Right Movements
+	for (b = 1; b <= 6; b++) {
+		if ((CC + b) == 27 || 
+			(CC + b) == 54 ||
+			(CC + b) == 81 ||
+			(CC + b) == 108 || 
+			(CC + b) == 135 ||
+			(CC + b) == 162 ||
+			(CC + b) == 189 || 
+			(CC + b) == 216 ||
+			(CC + b) == 243 ||
+			(CC + b) == 270 ||
+			(CC + b) == 297 || 
+			(CC + b) == 324 ||
+			(CC + b) == 351 ||
+			(CC + b) == 379 || 
+			(CC + b) == 405 ||
+			(CC + b) == 432 ||
+			(CC + b) == 459) 
+		{
+			break;
+		} 	
+		if (battleSquares[CC + b].className == "charSpace") {
+			break;
+		}
+		battleSquares[CC + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + b) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}
+
+	//Down Movements
+	for (c = 1; c <= 6; c++) {
+		if ((CC + 27*c) >= 459)
+		{		
+			break;
+		} 
+		if (battleSquares[CC + 27*c].className == "charSpace") {
+			break
+		} 
+		battleSquares[CC + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC + 27*c) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}
+	
+	//Left Movements
+	for (d = 1; d <= 6; d++) {			
+		if ((CC - d) == -1 ||
+			(CC - d) == 26 || 
+			(CC - d) == 53 ||
+			(CC - d) == 80 ||
+			(CC - d) == 107 || 
+			(CC - d) == 134 ||
+			(CC - d) == 161 ||
+			(CC - d) == 188 || 
+			(CC - d) == 215 ||
+			(CC - d) == 242 ||
+			(CC - d) == 269 ||
+			(CC - d) == 296 || 
+			(CC - d) == 323 ||
+			(CC - d) == 350 ||
+			(CC - d) == 378 || 
+			(CC - d) == 404 ||
+			(CC - d) == 431 ||
+			(CC - d) == 458) 
+		{
+			break;
+		} 	
+		if (battleSquares[CC - d].className == "charSpace") {
+			break;
+		} 		
+		battleSquares[CC - d].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (CC - d) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}	
+}
+
+
+
+
+
+
+
+
+
+
+
+var meleePrompt = function() {
+	
+}
+
+var reloadPrompt = function() {
+	
+}
+
+var ultimatePrompt = function() {
+	
+}
+
+
+
+
+
+
+
+
+
+
+
 //Movements
 var spaceDiv;
 var replaceSpacez = document.getElementById('landmine');
@@ -317,3 +396,4 @@ var overhaulMoves = function(x) {
 		}
 	displayChanges();
 	}
+
