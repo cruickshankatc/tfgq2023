@@ -204,6 +204,11 @@ img {
 	background-image: url('images/ransack.PNG');
 }
 
+.enemyTarget {
+    opacity: 0.5;
+}
+
+
 
 
 

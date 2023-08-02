@@ -13,8 +13,8 @@
 
 //The "Enemy" variable is for the character that loses health.
 1. There is no "enemy" variable in the "battle/arena" sense
-2. If an attack is performed on a certain square(s) the enemy(ies) that occupy that space will lose health
-3. Fall off damage may occur for certain attack
+2. If an attack is performed on a certain square(s) the enemy(ies) that ocurrentCharacterIndexupy that space will lose health
+3. Fall off damage may ocurrentCharacterIndexur for certain attack
 
 //A "melee" attack is performed on a space, not a character
 1. The range of the "melee" attack is only one space next to the player.
