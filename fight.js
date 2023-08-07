@@ -97,7 +97,8 @@ let battleSquares = battleground.getElementsByTagName("div"); /*Grabs all of the
 let CurrCharSpace = 0;
 let FCS = 162;
 let rowLength = 1323/battleSquares[1].offsetWidth;
-let enemyTarget;
+let enemyTarget = [];
+let enemyCounter = 0;
 
 //Picks squares and alters their HTML to contain IDs of specific characters for the starting spaces
 battleSquares[174].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
@@ -107,8 +108,8 @@ battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + currentPlayer[6] + "S
 battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + currentPlayer[8] + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space' class='charSpace'></div>";
 battleSquares[177 /*FCS + (rowLength*2 - 1)*/].outerHTML = "<div id='" + currentPlayer[3] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*3 - 1)].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*4 - 1)].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
+battleSquares[178 /*FCS + (rowLength*3 - 1)*/].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
+battleSquares[179 /*FCS + (rowLength*4 - 1)*/].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength*5 - 1)].outerHTML = "<div id='" + currentPlayer[9] + "Space' class='charSpace'></div>";
 
 //Numbers in the characterSpace Array are assigned to the outerHTML of the character spaces
@@ -224,7 +225,7 @@ let movePrompt = function() {
 		{
 			break;
 		} 	
-		if (battleSquares[currentCharacterIndex + b].className == "charSpace") {
+		if (battleSquares[currentCharacterIndex + b].classList.contains("charSpace")) {
 			break;
 		}
 		battleSquares[currentCharacterIndex + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + b) + ")'' style='background-color:" + teamColor2 + ";'></div>"
@@ -273,7 +274,7 @@ let moveAction = function(x) {
 /*	for (c = 0; c <=9; c++) {
 		battleSquares[c].outerHTML = "<div id='" + currentPlayer[c] + "Space' class='charSpace'></div>";
 	} */
-	if (playerCounter< 1) {
+	if (playerCounter < 1) {
 		document.getElementById(currentPlayer[0] + "Space").outerHTML = "<div class='blankSpace'></div>";	
 		battleSquares[x].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
 	} else {
@@ -296,7 +297,7 @@ let moveAction = function(x) {
 
 
 
-
+//EDITING STARTS NOW
 
 /*----------------FIREPOWER-----------------*/
 let firepowerPrompt = function() {
@@ -321,9 +322,11 @@ let firepowerPrompt = function() {
 			break;
 		} 	
 		if (battleSquares[currentCharacterIndex + b].className == "charSpace") {
-			enemyTarget = battleSquares[currentCharacterIndex + b];
-			enemyTarget.onclick = prowlDies;
-			enemyTarget.classList.add("enemyTarget");
+			let bb = b;
+			enemyTarget.push(battleSquares[currentCharacterIndex + b]);
+			enemyTarget[enemyCounter].onclick = () => prowlDies(currentCharacterIndex + bb);
+			enemyTarget[enemyCounter].classList.add("enemyTarget");
+			enemyCounter++;
 			continue;
 		}
 		battleSquares[currentCharacterIndex + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + b) + ")'' style='background-color:" + teamColor2 + ";'></div>"
@@ -389,8 +392,10 @@ let ultimatePrompt = function() {
 
 
 let rsHealth = 1;
+let enemyTargetX;
+let enemyTargetY;
 
-function prowlDies() {
+function prowlDies(zz) {
 	/**
 	 * Turns all the highlighted "click spaces" back into regular gray spaces.
 	 */
@@ -416,7 +421,9 @@ function prowlDies() {
 	 * Matches the enemyTarget with the corresponding object in theCharacters[]
 	 * I.e. 
 	 */
-	let enemyTarget2 = theCharacters.find((character) => character.name === enemyTarget.id.replace("Space", ""));
+	enemyTargetX = Array.from(battleSquares);
+	enemyTargetY = enemyTargetX[zz];
+	let enemyTarget2 = theCharacters.find((character) => character.name === enemyTargetY.id.replace("Space", ""));
 
 	/**
 	 * Reduce the enemy's health
@@ -424,12 +431,17 @@ function prowlDies() {
 	enemyTarget2.health-= 40;
 
 	if (enemyTarget2.health <= 0) {
-		enemyTarget.outerHTML = "<div class='blankSpace'></div>";
+		enemyTargetY.outerHTML = "<div class='blankSpace'></div>";
 		console.log("Prowl has died.");
 		enemyTarget2.health = 0;
 	}
 
+	enemyTarget.forEach(item => item.classList.remove("enemyTarget"));
+
 	displayChanges();
+
+	enemyTarget = [];
+	enemyCounter = 0;
 } 
 
 function playerCounterUpdate() {

@@ -205,8 +205,28 @@ img {
 }
 
 .enemyTarget {
-    opacity: 0.5;
+    opacity: 1;
 }
+
+.enemyTarget {
+    position: relative; /* Ensure the container is positioned */
+  }
+  
+.enemyTarget::before {
+    content: ""; /* Create a pseudo-element for the tint */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 99%;
+    height: 99%;
+    background: rgba(255, 64, 89, 0.795); /* Red tint with 50% opacity */
+    z-index: 5; /* Place the tint behind the content */
+  }
+
+  .enemyTarget:hover::before {
+    background-color: rgba(133, 0, 22, 0.877); /* Orange tint with 50% opacity on hover */
+  }
+
 
 
 
