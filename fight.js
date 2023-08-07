@@ -1,11 +1,14 @@
 //-------------------SETUP-------------------//
 //Merely gets the id for the empty <section> with the id "battleground"
-var battleground = document.getElementById("battleground");
+let battleground = document.getElementById("battleground");
 
 //Creates an array
-var squareSpaces = []; 
+let squareSpaces = []; 
 
-//This loop creates divs, gives them a class name and adds these new divs with (class names) to the battleground section
+/**
+ * Creates divs, gives them a class name and adds these new divs with (class names) 
+ * to the battleground section
+ */
 for (ii = 0; ii <= 458; ii++) {
 	squareSpaces[ii] = document.createElement('div'); 
 	squareSpaces[ii].className = "blankSpace"; 
@@ -16,43 +19,63 @@ for (ii = 0; ii <= 458; ii++) {
 let theCharacters = [
 	{
 		name: "landmine",
-		health: 1,
+		health: 10,
+		firepower: 2,
+		speed: 3,
 	},
 	{
 		name: "ransack",
-		health: 1,
+		health: 5,
+		firepower: 3,
+		speed: 5,
 	},
 	{
 		name: "dunerunner",
-		health: 1,
+		health: 5,
+		firepower: 3,
+		speed: 5,
 	},
 	{
 		name: "prowl",
-		health: 1,
+		health: 10,
+		firepower: 2,
+		speed: 3,
 	},
 	{
 		name: "brainstorm",
-		health: 1,
+		health: 10,
+		firepower: 2,
+		speed: 6,
 	},
 	{
 		name: "overcast",
-		health: 1,
+		health: 10,
+		firepower: 2,
+		speed: 6,
 	},
 	{
 		name: "ironhide",
-		health: 1,
+		health: 20,
+		firepower: 3,
+		speed: 3,
 	},
 	{
 		name: "onslaught",
-		health: 1,
+		health: 30,
+		firepower: 4,
+		speed: 2,
 	},
 	{
 		name: "overhaul",
-		health: 1,
+		health: 10,
+		firepower: 0,
+		speed: 5,
 	},
 	{
 		name: "crumplezone",
-		health: 1,
+		health: 20,
+		firepower: 2,
+		speed: 5,
 	},
 ]
 
@@ -62,18 +85,18 @@ let theCharacters = [
 
 
 //-------------------CHARACTER INITIAL PLACEMENT----------------//
-var currentPlayer = ["landmine", "ransack", "dunerunner", "prowl", "brainstorm", "overcast", "ironhide", "onslaught", "overhaul", "crumplezone"];
+let currentPlayer = ["landmine", "ransack", "dunerunner", "prowl", "brainstorm", "overcast", "ironhide", "onslaught", "overhaul", "crumplezone"];
 
 //Merely creates the array that will establish the starting space of each character
-var characterSpace = [];
+let characterSpace = [];
 
-var k = 0;
+let playerCounter = 0;
 
 //Character Spaces
-var battleSquares = battleground.getElementsByTagName("div"); /*Grabs all of the divs within the body. You could also say it grabs all of the squares*/
-var CurrCharSpace = 0;
-var FCS = 162;
-var rowLength = 1323/battleSquares[1].offsetWidth;
+let battleSquares = battleground.getElementsByTagName("div"); /*Grabs all of the divs within the body. You could also say it grabs all of the squares*/
+let CurrCharSpace = 0;
+let FCS = 162;
+let rowLength = 1323/battleSquares[1].offsetWidth;
 let enemyTarget;
 
 //Picks squares and alters their HTML to contain IDs of specific characters for the starting spaces
@@ -118,30 +141,26 @@ function changeBgColor(obj, colorName) {
 	} 
 
 //Name Display
-var teamColor;
-var teamColor2;
+let teamColor;
+let teamColor2;
 
-var displayChanges = function() {
+let displayChanges = function() {
 	teamColor = 'red';
 	teamColor2 = 'pink';
-	if (k === 0 || k === 2 || k === 4 || k === 6 || k === 8) {
+	if (playerCounter === 0 || playerCounter === 2 || playerCounter === 4 || playerCounter === 6 || playerCounter === 8) {
 		teamColor = 'red';
 		teamColor2 = 'pink';
-	} else if (k === 1 || k === 3 || k === 5 || k === 7 || k === 9) {
+	} else if (playerCounter === 1 || playerCounter === 3 || playerCounter === 5 || playerCounter === 7 || playerCounter === 9) {
 		teamColor = 'yellowGreen';
 		teamColor2 = 'yellow';
 		}
 	document.getElementById('displayName').outerHTML = "<h1 id='displayName' style='color:" + teamColor + "; font-size:300%;'></h1>"; /*Changes the color of the title of the active character*/
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]); /*Writes the name of the active character*/
+	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]); /*Writes the name of the active character*/
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
-	if (theCharacters[k].health === 0) {
-		if (k >= 9) {
-			k = 0;
-		} else {
-			k++;
-		}
+	if (theCharacters[playerCounter].health === 0) {
+		playerCounterUpdate();
 		displayChanges();
 	}
 }
@@ -183,11 +202,12 @@ for (x = -1; x < 459; x+=27) {
 
 
 
-var movePrompt = function() {
-	var currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[k] + 'Space');
+let movePrompt = function() {
+	let currentCharacter = theCharacters.find(character => character.name === currentPlayer[playerCounter]);
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
 
 	//Up Movements
-	for (a = 1; a <= 6/*this will be changed to character's speed number*/; a++) {
+	for (a = 1; a <= currentCharacter.speed/*this will be changed to character's speed number*/; a++) {
 	if ((currentCharacterIndex - 27*a) <= -1)
 	{ 	
 		break;
@@ -199,7 +219,7 @@ var movePrompt = function() {
 	}
 
 	//Right Movements
-	for (b = 1; b <= 6; b++) {
+	for (b = 1; b <= currentCharacter.speed; b++) {
 		if ((rightEdges.find(edge => edge == (currentCharacterIndex + b))))
 		{
 			break;
@@ -211,7 +231,7 @@ var movePrompt = function() {
 	}
 
 	//Down Movements
-	for (c = 1; c <= 6; c++) {
+	for (c = 1; c <= currentCharacter.speed; c++) {
 		if ((currentCharacterIndex + 27*c) >= 459)
 		{		
 			break;
@@ -223,7 +243,7 @@ var movePrompt = function() {
 	}
 	
 	//Left Movements
-	for (d = 1; d <= 6; d++) {			
+	for (d = 1; d <= currentCharacter.speed; d++) {			
 		if ((leftEdges.find(edge => edge == (currentCharacterIndex - d))))
 		{
 			break;
@@ -239,33 +259,30 @@ var movePrompt = function() {
 
 
 
-	var zzz = [];
+	let zzz = [];
 //MOVEMENT ACTION
-var moveAction = function(x) {
+let moveAction = function(x) {
 	for (a = 0; a <= 9; a++) {		
 		zzz[a] = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[
 		a] + 'Space');
 	} 
-	var y = document.getElementsByClassName('clickSpace');
-	for (var z = y.length - 1; z >= 0; --z) {
+	let y = document.getElementsByClassName('clickSpace');
+	for (let z = y.length - 1; z >= 0; --z) {
 		y[z].outerHTML = "<div class='blankSpace'></div>";
 	}
 /*	for (c = 0; c <=9; c++) {
 		battleSquares[c].outerHTML = "<div id='" + currentPlayer[c] + "Space' class='charSpace'></div>";
 	} */
-	if (k < 1) {
+	if (playerCounter< 1) {
 		document.getElementById(currentPlayer[0] + "Space").outerHTML = "<div class='blankSpace'></div>";	
 		battleSquares[x].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
 	} else {
-		document.getElementById(currentPlayer[k] + "Space").outerHTML = "<div class='blankSpace'></div>";	
-		battleSquares[x].outerHTML = "<div id='" + currentPlayer[k] + "Space' class='charSpace'></div>";		
+		document.getElementById(currentPlayer[playerCounter] + "Space").outerHTML = "<div class='blankSpace'></div>";	
+		battleSquares[x].outerHTML = "<div id='" + currentPlayer[playerCounter] + "Space' class='charSpace'></div>";		
 	}
-	if (k >= 9) {
-		k = 0;
-	} else {
-		k++;
-	}
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]);
+	playerCounterUpdate();
+
+	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]);
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -282,8 +299,8 @@ var moveAction = function(x) {
 
 
 /*----------------FIREPOWER-----------------*/
-var firepowerPrompt = function() {
-	var currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[k] + 'Space');
+let firepowerPrompt = function() {
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
 	//Up Movements
 	for (a = 1; a <= 6; a++) {
 	if ((currentCharacterIndex - 27*a) <= -1)
@@ -347,15 +364,15 @@ var firepowerPrompt = function() {
 
 
 
-var meleePrompt = function() {
+let meleePrompt = function() {
 	
 }
 
-var reloadPrompt = function() {
+let reloadPrompt = function() {
 	
 }
 
-var ultimatePrompt = function() {
+let ultimatePrompt = function() {
 	
 }
 
@@ -388,13 +405,9 @@ function prowlDies() {
 	 * These two actions (increasing the "k" variable and altering the displayName) would normally
 	 * be performed in moveAction()
 	 */
-	if (k >= 9) {
-		k = 0;
-	} else {
-		k++;
-	}
+	playerCounterUpdate();
 
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[k]);
+	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]);
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -408,12 +421,21 @@ function prowlDies() {
 	/**
 	 * Reduce the enemy's health
 	 */
-	enemyTarget2.health--;
+	enemyTarget2.health-= 40;
 
-	if (enemyTarget2.health == 0) {
+	if (enemyTarget2.health <= 0) {
 		enemyTarget.outerHTML = "<div class='blankSpace'></div>";
 		console.log("Prowl has died.");
+		enemyTarget2.health = 0;
 	}
 
 	displayChanges();
 } 
+
+function playerCounterUpdate() {
+	if (playerCounter >= 9) {
+		playerCounter = 0;
+	} else {
+		playerCounter++;
+	}
+}
