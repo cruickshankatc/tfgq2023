@@ -202,59 +202,82 @@ for (x = -1; x < 459; x+=27) {
 }
 
 
-
-let movePrompt = function() {
+let referenceSpeed;
+function createSpaces(direction) {
 	let currentCharacter = theCharacters.find(character => character.name === currentPlayer[playerCounter]);
 	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
+	referenceSpeed = currentCharacter.speed -1;
 
-	//Up Movements
-	for (a = 1; a <= currentCharacter.speed/*this will be changed to character's speed number*/; a++) {
-	if ((currentCharacterIndex - 27*a) <= -1)
+	for (y = 1; y <= currentCharacter.speed; y++) 	
+	{
+		let referenceSpace;
+		let ifCondition;
+		switch (direction) {
+			case "up":
+				referenceSpace = currentCharacterIndex - 27 * y;
+				ifCondition = (referenceSpace <= -1);
+				break;
+			case "right":
+				referenceSpace = currentCharacterIndex + y;
+				ifCondition = (rightEdges.find(edge => edge == (referenceSpace)));
+				break;
+			case "down":
+				referenceSpace = currentCharacterIndex + 27*y;
+				ifCondition = (referenceSpace >= 459);
+				break;
+			case "left":
+				referenceSpace = currentCharacterIndex - y;
+				ifCondition = (leftEdges.find(edge => edge == (referenceSpace)));
+				break;
+			default:
+				// Handle default case if necessary
+				break;
+		}
+		if (ifCondition)
 	{ 	
 		break;
 	} 
-	if (battleSquares[currentCharacterIndex - 27*a].className == "charSpace") {
-			break /*Breaks the move prompt highlight path if there is another character (another character face) in the way*/
+	if (battleSquares[referenceSpace].classList.contains("charSpace")) {
+			referenceSpeed--;
+			continue; 
 		}
-		battleSquares[currentCharacterIndex - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (currentCharacterIndex - 27*a) + ")'' style='background-color:" + teamColor2 + ";'></div>"
-	}
+			battleSquares[referenceSpace].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace) + ")'' style='background-color:" + teamColor2 + ";'></div>";
 
-	//Right Movements
-	for (b = 1; b <= currentCharacter.speed; b++) {
-		if ((rightEdges.find(edge => edge == (currentCharacterIndex + b))))
-		{
-			break;
-		} 	
-		if (battleSquares[currentCharacterIndex + b].classList.contains("charSpace")) {
-			break;
+
+
+
+
+		/*for (x = 0; x <= referenceSpeed; x++) {
+			//SWITCH STATEMENT FOR referenceSpace2 goes here
+
+				if ((rightEdges.find(edge => edge == (referenceSpace + x))))
+				{ 	
+					continue;
+				} 
+				if (battleSquares[referenceSpace + x].classList.contains("charSpace")) {
+						referenceSpeed--;	
+						continue; 
+					}
+			battleSquares[referenceSpace + x].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace + x) + ")'' style='background-color:" + teamColor2 + ";'></div>";
 		}
-		battleSquares[currentCharacterIndex + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + b) + ")'' style='background-color:" + teamColor2 + ";'></div>"
-	}
 
-	//Down Movements
-	for (c = 1; c <= currentCharacter.speed; c++) {
-		if ((currentCharacterIndex + 27*c) >= 459)
-		{		
-			break;
-		} 
-		if (battleSquares[currentCharacterIndex + 27*c].className == "charSpace") {
-			break
-		} 
-		battleSquares[currentCharacterIndex + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + 27*c) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+		referenceSpeed--;*/
 	}
-	
-	//Left Movements
-	for (d = 1; d <= currentCharacter.speed; d++) {			
-		if ((leftEdges.find(edge => edge == (currentCharacterIndex - d))))
-		{
-			break;
-		} 	
-		if (battleSquares[currentCharacterIndex - d].className == "charSpace") {
-			break;
-		} 		
-		battleSquares[currentCharacterIndex - d].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex - d) + ")'' style='background-color:" + teamColor2 + ";'></div>"
-	}	
 }
+
+function movePrompt() {
+	createSpaces("up");
+	createSpaces("right");
+	createSpaces("down");
+	createSpaces("left");
+	
+}
+
+
+
+
+
+
 
 
 
@@ -451,3 +474,114 @@ function playerCounterUpdate() {
 		playerCounter++;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+let movePrompt2 = function() {
+	let currentCharacter = theCharacters.find(character => character.name === currentPlayer[playerCounter]);
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
+
+	//Up Movements
+	referenceSpeed = currentCharacter.speed -1;
+	for (a = 1; a <= currentCharacter.speed; a++) 	
+	{
+		let referenceSpace = currentCharacterIndex - 27*a;
+		if ((currentCharacterIndex - 27*a) <= -1)
+	{ 	
+		break;
+	} 
+	if (battleSquares[currentCharacterIndex - 27*a].classList.contains("charSpace")) {
+			referenceSpeed--;
+			continue; 
+		}
+			battleSquares[currentCharacterIndex - 27*a].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (currentCharacterIndex - 27*a) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+
+		for (x = 0; x <= referenceSpeed; x++) {
+				if ((rightEdges.find(edge => edge == (referenceSpace + x))))
+				{ 	
+					continue;
+				} 
+				if (battleSquares[referenceSpace + x].classList.contains("charSpace")) {
+						referenceSpeed--;	
+						continue; 
+					}
+			battleSquares[referenceSpace + x].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace + x) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+		}
+
+		referenceSpeed--;
+	}
+
+	//Right Movements
+	referenceSpeed = currentCharacter.speed -1;
+	for (b = 1; b <= currentCharacter.speed; b++) 
+	{
+		let referenceSpace = currentCharacterIndex + b;
+		if ((rightEdges.find(edge => edge == (currentCharacterIndex + b))))
+	{
+		break;
+	} 	
+		if (battleSquares[currentCharacterIndex + b].classList.contains("charSpace")) {
+			referenceSpeed--;
+			continue;
+		}
+		battleSquares[currentCharacterIndex + b].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + b) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+
+		for (x = 0; x <= referenceSpeed; x++) {
+			if ((rightEdges.find(edge => edge == (referenceSpace + 27*x))))
+			{ 	
+				break;
+			} 
+			if (battleSquares[referenceSpace + 27*x].classList.contains("charSpace")) {
+					referenceSpeed--;
+					continue; 
+				}
+		battleSquares[referenceSpace + 27*x].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace + 27*x) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+	}
+
+	referenceSpeed--;
+	}
+
+	//Down Movements
+	for (c = 1; c <= currentCharacter.speed; c++) {
+		if ((currentCharacterIndex + 27*c) >= 459)
+		{		
+			break;
+		} 
+		if (battleSquares[currentCharacterIndex + 27*c].className == "charSpace") {
+			continue;
+		} 
+		battleSquares[currentCharacterIndex + 27*c].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex + 27*c) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}
+	
+	//Left Movements
+	for (d = 1; d <= currentCharacter.speed; d++) {			
+		if ((leftEdges.find(edge => edge == (currentCharacterIndex - d))))
+		{
+			break;
+		} 	
+		if (battleSquares[currentCharacterIndex - d].className == "charSpace") {
+			continue;
+		} 		
+		battleSquares[currentCharacterIndex - d].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)' onclick='moveAction(" + (currentCharacterIndex - d) + ")'' style='background-color:" + teamColor2 + ";'></div>"
+	}	
+}
+
+*/
