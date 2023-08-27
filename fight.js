@@ -85,10 +85,8 @@ let theCharacters = [
 
 
 //-------------------CHARACTER INITIAL PLACEMENT----------------//
-let currentPlayer = ["landmine", "ransack", "dunerunner", "prowl", "brainstorm", "overcast", "ironhide", "onslaught", "overhaul", "crumplezone"];
 
-//Merely creates the array that will establish the starting space of each character
-let characterSpace = [];
+
 
 let playerCounter = 0;
 
@@ -101,28 +99,18 @@ let enemyTarget = [];
 let enemyCounter = 0;
 
 //Picks squares and alters their HTML to contain IDs of specific characters for the starting spaces
-battleSquares[174].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength].outerHTML = "<div id='" + currentPlayer[2] + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength*2].outerHTML = "<div id='" + currentPlayer[4] + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + currentPlayer[6] + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + currentPlayer[8] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + currentPlayer[1] + "Space' class='charSpace'></div>";
-battleSquares[177 /*FCS + (rowLength*2 - 1)*/].outerHTML = "<div id='" + currentPlayer[3] + "Space' class='charSpace'></div>";
-battleSquares[178 /*FCS + (rowLength*3 - 1)*/].outerHTML = "<div id='" + currentPlayer[5] + "Space' class='charSpace'></div>";
-battleSquares[179 /*FCS + (rowLength*4 - 1)*/].outerHTML = "<div id='" + currentPlayer[7] + "Space' class='charSpace'></div>";
-battleSquares[FCS + (rowLength*5 - 1)].outerHTML = "<div id='" + currentPlayer[9] + "Space' class='charSpace'></div>";
+battleSquares[174].outerHTML = "<div id='" + theCharacters[0].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + rowLength].outerHTML = "<div id='" + theCharacters[2].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + rowLength*2].outerHTML = "<div id='" + theCharacters[4].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + theCharacters[6].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + theCharacters[8].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + theCharacters[1].name + "Space' class='charSpace'></div>";
+battleSquares[177 /*FCS + (rowLength*2 - 1)*/].outerHTML = "<div id='" + theCharacters[3].name + "Space' class='charSpace'></div>";
+battleSquares[178 /*FCS + (rowLength*3 - 1)*/].outerHTML = "<div id='" + theCharacters[5].name + "Space' class='charSpace'></div>";
+battleSquares[179 /*FCS + (rowLength*4 - 1)*/].outerHTML = "<div id='" + theCharacters[7].name + "Space' class='charSpace'></div>";
+battleSquares[FCS + (rowLength*5 - 1)].outerHTML = "<div id='" + theCharacters[9].name + "Space' class='charSpace'></div>";
 
-//Numbers in the characterSpace Array are assigned to the outerHTML of the character spaces
-characterSpace[0] = battleSquares[FCS].outerHTML;
-characterSpace[1] = battleSquares[FCS + (rowLength - 1)].outerHTML;
-characterSpace[2] = battleSquares[FCS + rowLength].outerHTML;
-characterSpace[3] = battleSquares[FCS + (rowLength*2 - 1)].outerHTML;
-characterSpace[4] = battleSquares[FCS + rowLength*2].outerHTML;
-characterSpace[5] = battleSquares[FCS + (rowLength*3 - 1)].outerHTML;
-characterSpace[6] = battleSquares[FCS + rowLength*3].outerHTML;
-characterSpace[7] = battleSquares[FCS + (rowLength*4 - 1)].outerHTML;
-characterSpace[8] = battleSquares[FCS + rowLength*4].outerHTML
-characterSpace[9] = battleSquares[FCS + (rowLength*5 - 1)].outerHTML;
+
 
 
 
@@ -156,7 +144,7 @@ let displayChanges = function() {
 		teamColor2 = 'yellow';
 		}
 	document.getElementById('displayName').outerHTML = "<h1 id='displayName' style='color:" + teamColor + "; font-size:300%;'></h1>"; /*Changes the color of the title of the active character*/
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]); /*Writes the name of the active character*/
+	document.getElementById('displayName').innerHTML = capFirst(theCharacters[playerCounter].name); /*Writes the name of the active character*/
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -189,7 +177,7 @@ displayChanges();
 
 
 //The functions that take place upon clicking the buttons at the bottom of the screen
-//The move prompt activates certain spaces for movement. It alters the HTML of spaces surrounding the currentPlayer[] so that they become clickable spaces which contain the moveAction() 
+//The move prompt activates certain spaces for movement. It alters the HTML of spaces surrounding the theCharacters[] so that they become clickable spaces which contain the moveAction() 
 
 let rightEdges = [];
 for (x = 0; x < 460; x+=27) {
@@ -203,15 +191,16 @@ for (x = -1; x < 459; x+=27) {
 
 
 let referenceSpeed;
+let referenceSpace;
 function createSpaces(direction) {
-	let currentCharacter = theCharacters.find(character => character.name === currentPlayer[playerCounter]);
-	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
+	let currentCharacter = theCharacters.find(character => character.name === theCharacters[playerCounter].name);
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === theCharacters[playerCounter].name + 'Space');
 	referenceSpeed = currentCharacter.speed -1;
 
 	for (y = 1; y <= currentCharacter.speed; y++) 	
 	{
-		let referenceSpace;
 		let ifCondition;
+
 		switch (direction) {
 			case "up":
 				referenceSpace = currentCharacterIndex - 27 * y;
@@ -233,35 +222,54 @@ function createSpaces(direction) {
 				// Handle default case if necessary
 				break;
 		}
-		if (ifCondition)
+	if (ifCondition)
 	{ 	
-		break;
+			
+			break;
 	} 
 	if (battleSquares[referenceSpace].classList.contains("charSpace")) {
 			referenceSpeed--;
+			createBetweenSpaces(direction);
 			continue; 
 		}
 			battleSquares[referenceSpace].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+		
+		createBetweenSpaces(direction);	
+		referenceSpeed--;
+	}
+}
 
+function createBetweenSpaces(direction) {
+	for (speedLoop = 0; speedLoop <= referenceSpeed; speedLoop++) {
+		let betweenSpace;
 
-
-
-
-		/*for (x = 0; x <= referenceSpeed; x++) {
-			//SWITCH STATEMENT FOR referenceSpace2 goes here
-
-				if ((rightEdges.find(edge => edge == (referenceSpace + x))))
-				{ 	
-					continue;
-				} 
-				if (battleSquares[referenceSpace + x].classList.contains("charSpace")) {
-						referenceSpeed--;	
-						continue; 
-					}
-			battleSquares[referenceSpace + x].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (referenceSpace + x) + ")'' style='background-color:" + teamColor2 + ";'></div>";
+		switch (direction) {
+			case "up":
+				betweenSpace = referenceSpace + speedLoop;
+				break;
+			case "right":
+				betweenSpace = referenceSpace + 27*speedLoop;
+				break;
+			case "down":
+				betweenSpace = referenceSpace - speedLoop;
+				break;
+			case "left":
+				betweenSpace = referenceSpace - 27*speedLoop;
+				break;
+			default:
+				// Handle default case if necessary
+				break;
 		}
-
-		referenceSpeed--;*/
+//NEED A SEPERATE IF STATEMENT FOR EACH BECAUSE SOME IF'S CANCEL THE WAY THE OTHER ONES WORK
+			if ((rightEdges.find(edge => edge == (betweenSpace))) || (leftEdges.find(edge => edge == (betweenSpace - 1))) || betweenSpace <= -1 || betweenSpace >= 459)
+			{ 	
+					break;
+			} 
+			if (battleSquares[betweenSpace].classList.contains("charSpace")) {
+					
+					continue; 
+				}
+		battleSquares[betweenSpace].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + teamColor +"`)' onmouseout='changeBgColor(this, `" + teamColor2 +"`)'' onclick='moveAction(" + (betweenSpace) + ")'' style='background-color:" + teamColor2 + ";'></div>";
 	}
 }
 
@@ -287,26 +295,26 @@ function movePrompt() {
 //MOVEMENT ACTION
 let moveAction = function(x) {
 	for (a = 0; a <= 9; a++) {		
-		zzz[a] = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[
-		a] + 'Space');
+		zzz[a] = Array.from(battleSquares).findIndex(x => x.id === theCharacters[
+		a].name + 'Space');
 	} 
 	let y = document.getElementsByClassName('clickSpace');
 	for (let z = y.length - 1; z >= 0; --z) {
 		y[z].outerHTML = "<div class='blankSpace'></div>";
 	}
 /*	for (c = 0; c <=9; c++) {
-		battleSquares[c].outerHTML = "<div id='" + currentPlayer[c] + "Space' class='charSpace'></div>";
+		battleSquares[c].outerHTML = "<div id='" + theCharacters[c].name + "Space' class='charSpace'></div>";
 	} */
 	if (playerCounter < 1) {
-		document.getElementById(currentPlayer[0] + "Space").outerHTML = "<div class='blankSpace'></div>";	
-		battleSquares[x].outerHTML = "<div id='" + currentPlayer[0] + "Space' class='charSpace'></div>";
+		document.getElementById(theCharacters[0].name + "Space").outerHTML = "<div class='blankSpace'></div>";	
+		battleSquares[x].outerHTML = "<div id='" + theCharacters[0].name + "Space' class='charSpace'></div>";
 	} else {
-		document.getElementById(currentPlayer[playerCounter] + "Space").outerHTML = "<div class='blankSpace'></div>";	
-		battleSquares[x].outerHTML = "<div id='" + currentPlayer[playerCounter] + "Space' class='charSpace'></div>";		
+		document.getElementById(theCharacters[playerCounter].name + "Space").outerHTML = "<div class='blankSpace'></div>";	
+		battleSquares[x].outerHTML = "<div id='" + theCharacters[playerCounter].name + "Space' class='charSpace'></div>";		
 	}
 	playerCounterUpdate();
 
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]);
+	document.getElementById('displayName').innerHTML = capFirst(theCharacters[playerCounter].name);
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -324,7 +332,7 @@ let moveAction = function(x) {
 
 /*----------------FIREPOWER-----------------*/
 let firepowerPrompt = function() {
-	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === theCharacters[playerCounter].name + 'Space');
 	//Up Movements
 	for (a = 1; a <= 6; a++) {
 	if ((currentCharacterIndex - 27*a) <= -1)
@@ -435,7 +443,7 @@ function prowlDies(zz) {
 	 */
 	playerCounterUpdate();
 
-	document.getElementById('displayName').innerHTML = capFirst(currentPlayer[playerCounter]);
+	document.getElementById('displayName').innerHTML = capFirst(theCharacters[playerCounter].name);
 	function capFirst(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -494,10 +502,22 @@ function playerCounterUpdate() {
 
 
 
-/*
+
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+/* CODE FOR DELETION*/
+
+
+
 let movePrompt2 = function() {
-	let currentCharacter = theCharacters.find(character => character.name === currentPlayer[playerCounter]);
-	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === currentPlayer[playerCounter] + 'Space');
+	let currentCharacter = theCharacters.find(character => character.name === theCharacters[playerCounter].name);
+	let currentCharacterIndex = Array.from(battleSquares).findIndex(x => x.id === theCharacters[playerCounter].name + 'Space');
 
 	//Up Movements
 	referenceSpeed = currentCharacter.speed -1;
@@ -584,4 +604,16 @@ let movePrompt2 = function() {
 	}	
 }
 
+/*
+//Numbers in the characterSpace Array are assigned to the outerHTML of the character spaces
+characterSpace[0] = battleSquares[FCS].outerHTML;
+characterSpace[1] = battleSquares[FCS + (rowLength - 1)].outerHTML;
+characterSpace[2] = battleSquares[FCS + rowLength].outerHTML;
+characterSpace[3] = battleSquares[FCS + (rowLength*2 - 1)].outerHTML;
+characterSpace[4] = battleSquares[FCS + rowLength*2].outerHTML;
+characterSpace[5] = battleSquares[FCS + (rowLength*3 - 1)].outerHTML;
+characterSpace[6] = battleSquares[FCS + rowLength*3].outerHTML;
+characterSpace[7] = battleSquares[FCS + (rowLength*4 - 1)].outerHTML;
+characterSpace[8] = battleSquares[FCS + rowLength*4].outerHTML
+characterSpace[9] = battleSquares[FCS + (rowLength*5 - 1)].outerHTML;
 */
