@@ -143,65 +143,65 @@ img {
 /*CHARACTER SPACE FACES*/
 /*Autobots*/
 #brainstormSpace {
-	background-image: url('images/brainstorm.PNG');
+	background-image: url('images/brainstorm.png');
 }
 
 #dunerunnerSpace {
-	background-image: url('images/dunerunner.PNG');
+	background-image: url('images/dunerunner.png');
 }
 
 #ironhideSpace {
-	background-image: url('images/ironhide.PNG');
+	background-image: url('images/ironhide.png');
 }
 
 #landmineSpace {
-	background-image: url('images/landmine.PNG');
+	background-image: url('images/landmine.png');
 }
 
 #overhaulSpace {
-	background-image: url('images/overhaul.PNG');	
+	background-image: url('images/overhaul.png');	
 }
 
 /*Decepticons*/
 #cryofireSpace {
-	background-image: url('images/cryofire.PNG');
+	background-image: url('images/cryofire.png');
 }
 
 #hardtopSpace {
-	background-image: url('images/hardtop.PNG');
+	background-image: url('images/hardtop.png');
 }
 
 #scorponokSpace {
-	background-image: url('images/scorponok.PNG');
+	background-image: url('images/scorponok.png');
 }
 
 #starscreamSpace {
-	background-image: url('images/starscream.PNG');
+	background-image: url('images/starscream.png');
 }
 
 #swindleSpace {
-	background-image: url('images/swindle.PNG');
+	background-image: url('images/swindle.png');
 }
 
 /*Ransacks*/
 #crumplezoneSpace {
-	background-image: url('images/crumplezone.PNG');
+	background-image: url('images/crumplezone.png');
 }
 
 #onslaughtSpace {
-	background-image: url('images/onslaught.PNG');
+	background-image: url('images/onslaught.png');
 }
 
 #overcastSpace {
-	background-image: url('images/overcast.PNG');
+	background-image: url('images/overcast.png');
 }
 
 #prowlSpace {
-	background-image: url('images/prowl.PNG');
+	background-image: url('images/prowl.png');
 }
 
 #ransackSpace {
-	background-image: url('images/ransack.PNG');
+	background-image: url('images/ransack.png');
 }
 
 .enemyTarget {
