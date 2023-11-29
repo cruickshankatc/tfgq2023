@@ -175,15 +175,15 @@ let enemyCounter = 0;
  * The commented out code is for the character's usual placement
  */
 //AUTOBOTS
-battleSquares[174].outerHTML = "<div id='" + theCharacters[0].name + "Space' class='charSpace'></div>";
-battleSquares[56 /*FCS + rowLength*/].outerHTML = "<div id='" + theCharacters[2].name + "Space' class='charSpace'></div>";
-battleSquares[82 /*FCS + rowLength*2*/].outerHTML = "<div id='" + theCharacters[4].name + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength*3].outerHTML = "<div id='" + theCharacters[6].name + "Space' class='charSpace'></div>";
-battleSquares[FCS + rowLength*4].outerHTML = "<div id='" + theCharacters[8].name + "Space' class='charSpace'></div>";
+battleSquares[374].outerHTML = "<div id='" + theCharacters[0].name + "Space' class='charSpace'></div>";
+battleSquares[356/*FCS + rowLength*/].outerHTML = "<div id='" + theCharacters[2].name + "Space' class='charSpace'></div>";
+battleSquares[292 /*FCS + rowLength*2*/].outerHTML = "<div id='" + theCharacters[4].name + "Space' class='charSpace'></div>";
+battleSquares[300].outerHTML = "<div id='" + theCharacters[6].name + "Space' class='charSpace'></div>";
+battleSquares[290].outerHTML = "<div id='" + theCharacters[8].name + "Space' class='charSpace'></div>";
 
 //RANSACKS
-battleSquares[FCS + (rowLength - 1)].outerHTML = "<div id='" + theCharacters[1].name + "Space' class='charSpace'></div>";
-battleSquares[177 /*FCS + (rowLength*2 - 1)*/].outerHTML = "<div id='" + theCharacters[3].name + "Space' class='charSpace'></div>";
+battleSquares[266].outerHTML = "<div id='" + theCharacters[1].name + "Space' class='charSpace'></div>";
+battleSquares[377 /*FCS + (rowLength*2 - 1)*/].outerHTML = "<div id='" + theCharacters[3].name + "Space' class='charSpace'></div>";
 battleSquares[178 /*FCS + (rowLength*3 - 1)*/].outerHTML = "<div id='" + theCharacters[5].name + "Space' class='charSpace'></div>";
 battleSquares[179 /*FCS + (rowLength*4 - 1)*/].outerHTML = "<div id='" + theCharacters[7].name + "Space' class='charSpace'></div>";
 battleSquares[FCS + (rowLength*5 - 1)].outerHTML = "<div id='" + theCharacters[9].name + "Space' class='charSpace'></div>";
@@ -237,6 +237,9 @@ displayChanges();
 let referenceSpace;
 let referenceSpeed;
 
+betweenSpaces = [];
+
+
 //MOVEMENT PROMPT
 function movePrompt(direction) {
 	//Find the space of the current Character 
@@ -249,7 +252,6 @@ function movePrompt(direction) {
 
 	//Set the referenceSpeed to the speed of the currentCharacter
 	referenceSpeed = currentCharacter.speed -1;
-
 	//Sets the referenceSpace and ifConditions variables for the different directions
 	for (y = 1; y <= currentCharacter.speed; y++) 	
 	{
@@ -259,89 +261,194 @@ function movePrompt(direction) {
 			case "up":
 				referenceSpace = currentCharacterIndex - 27 * y;
 				ifCondition = (referenceSpace <= -1);
+				for (zz = 1; zz <= referenceSpeed; zz++) {
+					if (((referenceSpace + zz) <= -1)) {
+						break;
+					}
+
+					if (rightEdges.find(edge => edge == (referenceSpace + zz))) {
+						console.log(betweenSpaces);
+						break;
+					}
+
+					betweenSpaces.push(referenceSpace + zz);
+					console.log(betweenSpaces);
+				}
 				break;
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
 			case "right":
 				referenceSpace = currentCharacterIndex + y;
 				ifCondition = (rightEdges.find(edge => edge == (referenceSpace)));
+				for (zz = 1; zz <= referenceSpeed; zz++) {
+					if (rightEdges.find(edge => edge == (referenceSpace + 27*zz))) {
+						console.log("jimmy")
+						console.log(betweenSpaces)
+						break;
+					}
+
+					if ((referenceSpace + 27*zz) >= 459) {
+						break;
+					}
+
+					betweenSpaces.push(referenceSpace + 27*zz);
+					console.log(betweenSpaces);
+				}
 				break;
+
+				
+
+
+
+
+
+
+
+
+
+
+
 			case "down":
 				referenceSpace = currentCharacterIndex + 27*y;
 				ifCondition = (referenceSpace >= 459);
+				for (zz = 1; zz <= referenceSpeed; zz++) {
+					// if ((referenceSpace + zz) >= 459) {
+					// 	break;
+					// }
+
+					// if (leftEdges.find(edge => edge == (referenceSpace - 27*zz))) {
+					// 	console.log(betweenSpaces)
+					// 	break;
+					// }
+
+					betweenSpaces.push(referenceSpace - zz);
+					console.log(betweenSpaces);
+				}
 				break;
+
+
+
+
+
+
+
+
+
+
+
+
+
 			case "left":
 				referenceSpace = currentCharacterIndex - y;
 				ifCondition = (leftEdges.find(edge => edge == (referenceSpace)));
+				for (zz = 1; zz <= referenceSpeed; zz++) {					
+					// if (leftEdges.find(edge => edge == (referenceSpace - zz))) {
+					// 	console.log(betweenSpaces)
+					// 	break;
+					// }
+					
+					if (((referenceSpace - 27*zz) <= -1)) {
+						break;
+					}
+					
+					betweenSpaces.push(referenceSpace - 27*zz);
+					console.log(betweenSpaces);
+				}
 				break;
+
+
+
+
 			default:
 				// Handle default case if necessary
 				break;
 		}
 
+
+
+
+
+
+
+
+
+
 	//Check for edge collisions	
 		if (ifCondition)
 			{ 	
+				betweenSpaces.length = 0;
 				break;
 			}
 
 		//Check for charSpace (other character icons) collisions		
 	if (battleSquares[referenceSpace].classList.contains("charSpace")) {
-	//		createBetweenSpaces(direction);
+		if (betweenSpaces.length > 0) {
+			for (z = 0; z < referenceSpeed; z++) {
+				if (rightEdges.find(edge => edge == (betweenSpaces[z]))) {
+					betweenSpaces.length = 0;
+					break;
+				}
+
+				if ((betweenSpaces[z] <= -1)) {
+					betweenSpaces.length = 0;
+					break;
+				}
+
+				if (battleSquares[betweenSpaces[z]].classList.contains("charSpace")) {
+					continue;
+				}
+
+				battleSquares[betweenSpaces[z]].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + theCharacters[playerCounter].color1 +"`)' onmouseout='changeBgColor(this, `" + theCharacters[playerCounter].color2 +"`)'' onclick='moveAction(" + (betweenSpaces[z]) + ")'' style='background-color:" + theCharacters[playerCounter].color2 + ";'></div>";
+			}
+		}
+
+
 			referenceSpeed--;
+			betweenSpaces.length = 0;
 			continue; 
 		}
 
+
+
+
+
+
+
+
 		//Alters the HTML of blankSpaces turning them into "clickSpaces"
 			battleSquares[referenceSpace].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + theCharacters[playerCounter].color1 +"`)' onmouseout='changeBgColor(this, `" + theCharacters[playerCounter].color2 +"`)'' onclick='moveAction(" + (referenceSpace) + ")'' style='background-color:" + theCharacters[playerCounter].color2 + ";'></div>";
+
+
+			if (betweenSpaces.length > 0) {
+			for (z = 0; z < betweenSpaces.length; z++) {
+				
+				if (battleSquares[betweenSpaces[z]].classList.contains("charSpace")) {
+					continue;
+				}
+				
+				battleSquares[betweenSpaces[z]].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + theCharacters[playerCounter].color1 +"`)' onmouseout='changeBgColor(this, `" + theCharacters[playerCounter].color2 +"`)'' onclick='moveAction(" + (betweenSpaces[z]) + ")'' style='background-color:" + theCharacters[playerCounter].color2 + ";'></div>";
+			}
+		}
 		
 	//	createBetweenSpaces(direction);	
 		referenceSpeed--;
+		betweenSpaces.length = 0;
 	}
 }
-
-/**
- * Creates spaces between the basic "up", "right", "down" and "left" paths
- * CURRENTLY NOT WORKING
- */
-
-/*
-function createBetweenSpaces(direction) {
-	let betweenSpace = 0;
-	let ifCondition2 = 0;
-	for (speedLoop = 0; speedLoop <= referenceSpeed; speedLoop++) {
-		
-		switch (direction) {
-    case "up":
-        betweenSpace = referenceSpace + speedLoop;
-        ifCondition2 = (rightEdges.find(edge => edge == (betweenSpace)));
-        break;
-			case "right":
-				betweenSpace = referenceSpace + 27*speedLoop;
-				ifCondition2 = (betweenSpace >= 459);
-				break;
-			case "down":
-				betweenSpace = referenceSpace - speedLoop;
-				ifCondition2 = (leftEdges.find(edge => edge == (betweenSpace))); 
-				break;
-			case "left":
-				betweenSpace = referenceSpace - 27*speedLoop;
-				ifCondition2 = (betweenSpace <= -1);
-				break;
-			default:
-				// Handle default case if necessary
-				break;
-		}
-
-			if (ifCondition2)
-			{ 	
-					continue;
-			} 
-			if (battleSquares[betweenSpace].classList.contains("charSpace")) {					
-					continue; 
-				}
-		battleSquares[betweenSpace].outerHTML = "<div class='clickSpace' onmouseover='changeBgColor(this, `" + theCharacters[playerCounter].color1 +"`)' onmouseout='changeBgColor(this, `" + theCharacters[playerCounter].color2 +"`)'' onclick='moveAction(" + (betweenSpace) + ")'' style='background-color:" + theCharacters[playerCounter].color2 + ";'></div>";
-	}
-}
-*/
 
 function movePrompt2() {
 	movePrompt("up");
