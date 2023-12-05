@@ -41,6 +41,9 @@ let theCharacters = [
 		name: "landmine",
 		faction: "autobot",
 		health: 10,
+		currentHealth: 10,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 5,
 		speed: 3,
 		range: 5,
@@ -49,6 +52,9 @@ let theCharacters = [
 		name: "ransack",
 		faction: "ransack",
 		health: 5,
+		currentHealth: 5,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 3,
 		speed: 5,
 		range: 5,
@@ -57,6 +63,9 @@ let theCharacters = [
 		name: "dunerunner",
 		faction: "autobot",
 		health: 5,
+		currentHealth: 5,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 3,
 		speed: 5,
 		range: 7,
@@ -65,6 +74,9 @@ let theCharacters = [
 		name: "prowl",
 		faction: "ransack",
 		health: 10,
+		currentHealth: 10,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 2,
 		speed: 3,
 		range: 6,
@@ -73,6 +85,9 @@ let theCharacters = [
 		name: "brainstorm",
 		faction: "autobot",
 		health: 10,
+		currentHealth: 10,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 2,
 		speed: 6,
 		range: 8,
@@ -81,6 +96,9 @@ let theCharacters = [
 		name: "overcast",
 		faction: "ransack",
 		health: 10,
+		currentHealth: 10,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 2,
 		speed: 6,
 		range: 8,
@@ -89,6 +107,9 @@ let theCharacters = [
 		name: "ironhide",
 		faction: "autobot",
 		health: 20,
+		currentHealth: 20,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 3,
 		speed: 3,
 		range: 4,
@@ -97,6 +118,9 @@ let theCharacters = [
 		name: "onslaught",
 		faction: "ransack",
 		health: 30,
+		currentHealth: 30,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 4,
 		speed: 2,
 		range: 4,
@@ -105,6 +129,9 @@ let theCharacters = [
 		name: "overhaul",
 		faction: "autobot",
 		health: 10,
+		currentHealth: 10,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 3,
 		speed: 5,
 		range: 0,
@@ -113,6 +140,9 @@ let theCharacters = [
 		name: "crumplezone",
 		faction: "ransack",
 		health: 20,
+		currentHealth: 20,
+		ultimate: 10,
+		currentUltimate: 0,
 		firepower: 2,
 		speed: 5,
 		range: 5,
@@ -211,12 +241,13 @@ let displayChanges = function() {
 	}
 
 	//Makes sure "eliminated" characters are skipped
-	if (theCharacters[playerCounter].health === 0) {
+	if (theCharacters[playerCounter].currentHealth === 0) {
 		playerCounterUpdate();
 		displayChanges();
 	}
 }
 displayChanges();
+cardUpdate();
 
 
 
@@ -720,6 +751,7 @@ let moveAction = function(x) {
 
 	playerCounterUpdate();
 	displayChanges();
+	cardUpdate();
 }
 
 
@@ -748,13 +780,13 @@ function firepowerAction(xz) {
 	/**
 	 * Reduce the enemy's health
 	 */
-	enemyTarget2.health-= theCharacters[playerCounter].firepower;
+	enemyTarget2.currentHealth-= theCharacters[playerCounter].firepower;
 	console.log(theCharacters[playerCounter].firepower);
 	console.log(theCharacters[playerCounter].name);
 
-	if (enemyTarget2.health <= 0) {
+	if (enemyTarget2.currentHealth <= 0) {
 		enemyTargetY.outerHTML = "<div class='blankSpace'></div>";
-		enemyTarget2.health = 0;
+		enemyTarget2.currentHealth = 0;
 	}
 
 	enemyTarget.forEach(item => item.classList.remove("enemyTarget"));
@@ -772,6 +804,7 @@ function firepowerAction(xz) {
 	}
 
 	displayChanges();
+	cardUpdate();
 
 	enemyTarget = [];
 	enemyCounter = 0;
@@ -809,5 +842,96 @@ function playerCounterUpdate() {
  * Only 2 factions play per game
  * At the beginning there is a menu and the player can select the 2 teams
  */
+
+
+
+
+
+
+function cardUpdate () {
+	let health1 = document.getElementById("health1");
+	let ultimate1 = document.getElementById("ultimate1");
+	let firepower1 = document.getElementById("firepower1");
+	let speed1 = document.getElementById("speed1");
+	let range1 = document.getElementById("range1");
+
+	document.getElementById("name1").innerHTML = theCharacters[playerCounter].name;
+	let cardImage = document.getElementById("card1").querySelector("img");
+	cardImage.src = "images/cards/" + theCharacters[playerCounter].name +".png";
+
+
+	while (health1.firstChild) {
+    health1.removeChild(health1.firstChild);
+	}
+
+	while (ultimate1.firstChild) {
+    ultimate1.removeChild(ultimate1.firstChild);
+	}
+	
+	while (firepower1.firstChild) {
+    firepower1.removeChild(firepower1.firstChild);
+	}
+
+	while (speed1.firstChild) {
+    speed1.removeChild(speed1.firstChild);
+	}
+
+	while (range1.firstChild) {
+    range1.removeChild(range1.firstChild);
+	}
+
+
+	for (x = 0; x < theCharacters[playerCounter].health; x++) {
+		let square = document.createElement("div");
+		if (x < theCharacters[playerCounter].currentHealth) {
+			square.classList.add("fullHealth");
+		} else {
+			square.classList.add("emptyHealth");
+		}
+		health1.appendChild(square);
+	}
+
+	for (x = 0; x < theCharacters[playerCounter].ultimate; x++) {
+		let square = document.createElement("div");
+		if (x < theCharacters[playerCounter].currentUltimate) {
+			square.classList.add("fullHealth");
+		} else {
+			square.classList.add("emptyHealth");
+		}
+		ultimate1.appendChild(square);
+	}
+
+	for (x = 0; x < 10; x++) {
+		let square = document.createElement("div");
+		if (x < theCharacters[playerCounter].firepower) {
+			square.classList.add("fullHealth");
+		} else {
+			square.classList.add("emptyHealth");
+		}
+		firepower1.appendChild(square);
+	}
+
+	
+	for (x = 0; x < 10; x++) {
+		let square = document.createElement("div");
+		if (x < theCharacters[playerCounter].speed) {
+			square.classList.add("fullHealth");
+		} else {
+			square.classList.add("emptyHealth");
+		}
+		speed1.appendChild(square);
+	}
+
+	for (x = 0; x < 10; x++) {
+		let square = document.createElement("div");
+		if (x < theCharacters[playerCounter].range) {
+			square.classList.add("fullHealth");
+		} else {
+			square.classList.add("emptyHealth");
+		}
+		range1.appendChild(square);
+	}
+}
+
 
 
