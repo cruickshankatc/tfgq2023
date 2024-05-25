@@ -10,11 +10,19 @@ let moveAction = function(x) {
 		zzz[a] = Array.from(battleSquares).findIndex(x => x.id === theCharacters[
 		a].name + 'Space');
 	} 
+
+	/**
+	 * Returns all the click spaces to normal spaces
+	 */
 	let y = document.getElementsByClassName('clickSpace');
 	for (let z = y.length - 1; z >= 0; --z) {
 		y[z].outerHTML = "<div class='blankSpace'></div>";
 	}
 
+	/**
+	 * Revert the space on the board last occupied by the currentCharacter back
+	 * to a default space, and put his face on his new space.
+	 */
 	document.getElementById(theCharacters[playerCounter].name + "Space").outerHTML = "<div class='blankSpace'></div>";	
 	battleSquares[x].outerHTML = "<div id='" + theCharacters[playerCounter].name + "Space' class='charSpace'></div>";		
 

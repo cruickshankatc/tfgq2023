@@ -94,7 +94,9 @@ input, select {
 }
 
 /*CODE STARTS HERE*/
-body {
+
+
+#gameBoard {
     display: flex;
 }
 

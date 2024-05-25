@@ -4,54 +4,54 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body style="background-color:black">
+		<section id="mainMenu">
+			<h1>TFGQ: The Game</h1>
+		</section>
 
+		<section id="gameBoard">
+			<div class="stats" id="stats1">
+				<div class="card" id="card1"><img src="images/cards/overhaul.png" alt=""></div>
+				<h1 id="name1">Overhaul</h1>
+				<div class="stats-label">Health</div>
+					<div class="stats-bars" id="health1"></div>
+				<div class="stats-label">Ultimate</div>
+					<div class="stats-bars" id="ultimate1"></div>
+				<div class="stats-label">Firepower</div>
+					<div class="stats-bars" id="firepower1"></div>
+				<div class="stats-label">Speed</div>
+					<div class="stats-bars" id="speed1"></div>
+				<div class="stats-label">Range</div>
+					<div class="stats-bars" id="range1"></div>
+			</div>
+		
+			<center>
+				<div id="landmine"></div>
+				<div id="endMessage"></div>
+				<section id="battleground">		
+				</section>
+				<h1 id="displayName" style="color:red; font-size:300%;"></h1>
+				<button id="moveButton" onclick="movePrompt2()">Move</button>
+				<button id="meleeButton" disabled="true">Melee</button>
+				<button id="firepowerButton" onclick="firepowerPrompt()">Firepower</button>
+				<button id="reloadButton" disabled="true">Reload</button>
+				<button id="ultimateButton" disabled="true">Ultimate</button>
+			</center>
 
-
-		<div class="stats" id="stats1">
-			<div class="card" id="card1"><img src="images/cards/overhaul.png" alt=""></div>
-			<h1 id="name1">Overhaul</h1>
-			<div class="stats-label">Health</div>
-				<div class="stats-bars" id="health1"></div>
-			<div class="stats-label">Ultimate</div>
-				<div class="stats-bars" id="ultimate1"></div>
-			<div class="stats-label">Firepower</div>
-				<div class="stats-bars" id="firepower1"></div>
-			<div class="stats-label">Speed</div>
-				<div class="stats-bars" id="speed1"></div>
-			<div class="stats-label">Range</div>
-				<div class="stats-bars" id="range1"></div>
-		</div>
-	
-
-
-		<center>
-			<div id="landmine"></div>
-			<div id="endMessage"></div>
-			<section id="battleground">		
-			</section>
-			<h1 id="displayName" style="color:red; font-size:300%;"></h1>
-			<button id="moveButton" onclick="movePrompt2()">Move</button>
-			<button id="meleeButton" disabled="true">Melee</button>
-			<button id="firepowerButton" onclick="firepowerPrompt()">Firepower</button>
-			<button id="reloadButton" disabled="true">Reload</button>
-			<button id="ultimateButton" disabled="true">Ultimate</button>
-		</center>
-
-
-		<div class="stats" id="stats2">
-			<div class="card" id="card2"><img src="images/cards/overhaul.png" alt=""></div>
-			<h1 id="name2">Overhaul</h1>
-			<div class="stats-label">Health</div>
-				<div class="stats-bars" id="health2"></div>
-			<div class="stats-label">Ultimate</div>
-				<div class="stats-bars" id="ultimate2"></div>
-			<div class="stats-label">Firepower</div>
-				<div class="stats-bars" id="firepower2"></div>
-			<div class="stats-label">Speed</div>
-				<div class="stats-bars" id="speed2"></div>
-			<div class="stats-label">Range</div>
-				<div class="stats-bars" id="range2"></div>
-		</div>
+			<div class="stats" id="stats2">
+				<div class="card" id="card2"><img src="images/cards/overhaul.png" alt=""></div>
+				<h1 id="name2">Overhaul</h1>
+				<div class="stats-label">Health</div>
+					<div class="stats-bars" id="health2"></div>
+				<div class="stats-label">Ultimate</div>
+					<div class="stats-bars" id="ultimate2"></div>
+				<div class="stats-label">Firepower</div>
+					<div class="stats-bars" id="firepower2"></div>
+				<div class="stats-label">Speed</div>
+					<div class="stats-bars" id="speed2"></div>
+				<div class="stats-label">Range</div>
+					<div class="stats-bars" id="range2"></div>
+			</div>
+		</section>
 		
 		<script src="fight.js"></script>
 		<script src="javascript/gameplay/cardUpdate1.js"></script>
