@@ -4,8 +4,26 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body style="background-color:black">
-		<section id="mainMenu">
+		<section id="mainMenu" class="menuScreen">
 			<h1>TFGQ: The Game</h1>
+			<p>Press any key to start</p>
+		</section>
+
+		<section class="menuScreen">
+			<button>Play</button>
+			<button>Read Rules</button>
+		</section>
+
+		<section class="menuScreen">
+			<button disabled>Single Player</button>
+			<button>Local Multiplayer</button>
+			<button disabled>Online Multiplayer</button>
+		</section>
+
+		<section class="menuScreen" id="factionSelect">
+			<button id="AutobotBtn">Autobots</button>
+			<button id="DecepticonBtn">Decepticons</button>
+			<button id="RansackBtn">Ransacks</button>
 		</section>
 
 		<section id="gameBoard">

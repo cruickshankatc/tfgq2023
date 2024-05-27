@@ -94,7 +94,53 @@ input, select {
 }
 
 /*CODE STARTS HERE*/
+.menuScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.menuScreen button {
+    width: 200px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    background-color: yellow;
+    border: solid;
+    border-radius: 5px;
+    border-color: yellow;
+    cursor: pointer;
+    border-color: lightgray;
+    border-style: ridge;
+}
+
+.menuScreen button:disabled {
+    cursor: default;
+}
+
+.menuScreen button:hover:not(:disabled) {
+    background-color: orange; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+}
+
+#mainMenu h1 {
+    color: red;
+}
+
+#mainMenu p {
+    color: gray;
+}
+
+#factionSelect #autobotBtn {
+    background-color: red;
+}
+
+#factionSelect #DecepticonBtn {
+    background-color: purple;
+}
+
+#factionSelect #RansackBtn {
+    background-color: greenyellow;
+}
 
 #gameBoard {
     display: flex;
