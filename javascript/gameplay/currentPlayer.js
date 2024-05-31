@@ -23,6 +23,4 @@ let displayChanges = function() {
 		displayChanges();
 	}
 }
-displayChanges();
-cardUpdate1();
-cardUpdate2();
+

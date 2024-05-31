@@ -4,26 +4,26 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body style="background-color:black">
-		<section id="mainMenu" class="menuScreen">
+		<section id="titleScreen" class="menuScreen">
 			<h1>TFGQ: The Game</h1>
-			<p>Press any key to start</p>
+			<p onclick="titleToMenu()">Click here to start</p>
 		</section>
 
-		<section class="menuScreen">
-			<button>Play</button>
+		<section id="mainMenu" class="menuScreen">
+			<button onclick="menuToMode()">Play</button>
 			<button>Read Rules</button>
 		</section>
 
-		<section class="menuScreen">
+		<section id="modeSelect" class="menuScreen">
 			<button disabled>Single Player</button>
-			<button>Local Multiplayer</button>
+			<button onclick="modeToFaction()">Local Multiplayer</button>
 			<button disabled>Online Multiplayer</button>
 		</section>
 
-		<section class="menuScreen" id="factionSelect">
-			<button id="AutobotBtn">Autobots</button>
-			<button id="DecepticonBtn">Decepticons</button>
-			<button id="RansackBtn">Ransacks</button>
+		<section id="factionSelect" class="menuScreen" id="factionSelect">
+			<button id="AutobotBtn" onclick="setFaction('autobot')">Autobots</button>
+			<button id="DecepticonBtn" onclick="setFaction('decepticon')">Decepticons</button>
+			<button id="RansackBtn" onclick="setFaction('ransack')">Ransacks</button>
 		</section>
 
 		<section id="gameBoard">
@@ -78,6 +78,8 @@
 		<script src="javascript/setup/characters.js"></script>
 		<script src="javascript/setup/faction.js"></script>
 		<script src="javascript/setup/characterPlacement.js"></script>
+		<script src="javascript/setup/menu.js"></script>
+		<script src="javascript/setup/factionSelect.js"></script>
 		<script src="javascript/gameplay/currentPlayer.js"></script>
 		<script src="javascript/gameplay/movePrompt.js"></script>
 		<script src="javascript/gameplay/moveAction.js"></script>

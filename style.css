@@ -95,7 +95,7 @@ input, select {
 
 /*CODE STARTS HERE*/
 .menuScreen {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
 }
@@ -122,11 +122,11 @@ input, select {
     color: white; /* Change text color on hover */
 }
 
-#mainMenu h1 {
+#titleScreen h1 {
     color: red;
 }
 
-#mainMenu p {
+#titleScreen p {
     color: gray;
 }
 
@@ -142,8 +142,12 @@ input, select {
     background-color: greenyellow;
 }
 
-#gameBoard {
+#titleScreen {
     display: flex;
+}
+
+#gameBoard {
+    display: none;
 }
 
 /*BOARD*/
