@@ -1,9 +1,10 @@
 let team1;
 let team2;
 
-function setFaction(faction) {
+function setFaction(faction, button) {
     theCharacters = [];
     setFaction2(faction);
+    button.disabled = true;
 }
 
 function setFaction2(faction) {
