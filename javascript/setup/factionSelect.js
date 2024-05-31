@@ -3,26 +3,38 @@ let team2;
 
 function setFaction(faction) {
     theCharacters = [];
+    setFaction2(faction);
+}
+
+function setFaction2(faction) {
+    let setTeam;
+
     switch (faction) {
         case "autobot":
-        console.log("autobot");
-        team1 = autobots;
-        team2 = decepticons;
-        console.log(team1);
+        setTeam = autobots;
         break;
 
         case "decepticon":
-        console.log("decepticon");
+        setTeam = decepticons;
         break;
 
         case "ransack":
-        console.log("ransack");
+        setTeam = ransacks;
         break;
     }
 
+    if (team1 == undefined) {
+        team1 = setTeam;
+    } else if (team1 != undefined) {
+        team2 = setTeam;
+        gameInit();
+    }
+}
+
+function gameInit() {
     let team1Num = 0;
     let team2Num = 0;
-
+    
     for (x = 0; x < 10; x++) {
         if ((x === 0) || (x % 2 === 0)) {
             theCharacters[x] = team1[team1Num];
@@ -40,4 +52,3 @@ function setFaction(faction) {
     characterPlacement();
     factionToGame();
 }
-
