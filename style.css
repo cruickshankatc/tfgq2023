@@ -98,11 +98,16 @@ input, select {
     display: none;
     flex-direction: column;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
 }
 
 .menuScreen button {
-    width: 200px;
+    width: 400px;
     margin-bottom: 5px;
+    font-size: 2em;
     text-transform: uppercase;
     background-color: yellow;
     border: solid;
@@ -122,12 +127,20 @@ input, select {
     color: white; /* Change text color on hover */
 }
 
+#titleScreen {
+    display: flex;
+}
+
 #titleScreen h1 {
     color: red;
+    font-size: 5em;
+    text-wrap: nowrap;
+    margin-bottom: 15px;
 }
 
 #titleScreen p {
     color: gray;
+    font-size: 2em;
 }
 
 #factionSelect #autobotBtn {
@@ -140,10 +153,6 @@ input, select {
 
 #factionSelect #RansackBtn {
     background-color: greenyellow;
-}
-
-#titleScreen {
-    display: flex;
 }
 
 #gameBoard {
